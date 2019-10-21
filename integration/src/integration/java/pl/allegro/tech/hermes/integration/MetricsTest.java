@@ -76,9 +76,9 @@ public class MetricsTest extends IntegrationTest {
     public void shouldIncreaseSubscriptionDeliveredMetricsAfterMessageDelivered() {
         // given
         Topic topic = operations.buildTopic(randomTopic("pl.group", "topic").build());
-        operations.createSubscription(topic, "subscription", HTTP_ENDPOINT_URL);
+        operations.createSubscription(topic, "subscr_iption", HTTP_ENDPOINT_URL);
         graphiteEndpoint.returnMetric(
-                subscriptionMetricsStub("pl_group." + topic.getName().getName() + ".subscription").withRate(15).build());
+                subscriptionMetricsStub("pl_group." + topic.getName().getName() + ".subscr_iption").withRate(15).build());
 
         remoteService.expectMessages(TestMessage.simple().body());
         assertThat(publisher.publish(topic.getQualifiedName(), TestMessage.simple().body()).getStatus())
@@ -87,7 +87,7 @@ public class MetricsTest extends IntegrationTest {
 
         wait.until(() -> {
             // when
-            SubscriptionMetrics metrics = management.subscription().getMetrics(topic.getQualifiedName(), "subscription");
+            SubscriptionMetrics metrics = management.subscription().getMetrics(topic.getQualifiedName(), "subscr_iption");
 
             // then
             assertThat(metrics.getRate()).isEqualTo(MetricDecimalValue.of("15"));
