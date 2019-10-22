@@ -8,10 +8,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
+import static pl.allegro.tech.hermes.api.constraints.Names.ALLOWED_NAME_REGEX;
+
 public class Group {
 
     @NotNull
-    @Pattern(regexp = Names.ALLOWED_NAME_REGEX)
+    @Pattern(regexp = ALLOWED_NAME_REGEX)
     private String groupName;
 
     /**

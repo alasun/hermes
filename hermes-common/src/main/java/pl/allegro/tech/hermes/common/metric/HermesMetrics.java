@@ -25,6 +25,7 @@ import static pl.allegro.tech.hermes.metrics.PathContext.pathContext;
 public class HermesMetrics {
 
     public static final String REPLACEMENT_CHAR = "_";
+    public static final String TEMPORARY_REPLACEMENT_CHAR = "€";
 
     private final MetricRegistry metricRegistry;
     private final PathsCompiler pathCompiler;
@@ -38,7 +39,15 @@ public class HermesMetrics {
     }
 
     public static String escapeDots(String value) {
-        return value.replaceAll("\\.", REPLACEMENT_CHAR);
+        return value
+                .replaceAll("_", TEMPORARY_REPLACEMENT_CHAR)
+                .replaceAll("\\.", REPLACEMENT_CHAR);
+    }
+
+    public static String unescapeDots(String value) {
+        return value
+                .replaceAll(REPLACEMENT_CHAR, "\\.")
+                .replaceAll(TEMPORARY_REPLACEMENT_CHAR, "_");
     }
 
     public Timer timer(String metric) {

@@ -112,7 +112,7 @@ public class ZookeeperCounterReporter extends ScheduledReporter {
     }
 
     private static String escapeMetricsReplacementChar(String value) {
-        return value.replaceAll(HermesMetrics.REPLACEMENT_CHAR, "\\.");
+        return HermesMetrics.unescapeDots(value);
     }
 
     private static final class ZookeeperMetricsFilter implements MetricFilter {

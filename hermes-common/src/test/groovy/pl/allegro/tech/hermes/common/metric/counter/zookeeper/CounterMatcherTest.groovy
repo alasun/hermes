@@ -34,7 +34,7 @@ class CounterMatcherTest extends Specification {
         subscriptionName == "subscription"
     }
 
-    def "should match fancy subscription delivered"() {
+    def "should match subscription delivered with underscores in name"() {
         given:
             def counterName = "delivered.pl_allegro_offercore.topic.auction_offer-ended-only"
             def counterMatcher = new CounterMatcher(counterName)
