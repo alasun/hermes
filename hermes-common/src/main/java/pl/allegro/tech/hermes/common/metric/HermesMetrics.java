@@ -38,13 +38,13 @@ public class HermesMetrics {
         this.pathCompiler = pathCompiler;
     }
 
-    public static String escapeDots(String value) {
+    public static String escapeName(String value) {
         return value
                 .replaceAll("_", TEMPORARY_REPLACEMENT_CHAR)
                 .replaceAll("\\.", REPLACEMENT_CHAR);
     }
 
-    public static String unescapeDots(String value) {
+    public static String unescapeName(String value) {
         return value
                 .replaceAll(REPLACEMENT_CHAR, "\\.")
                 .replaceAll(TEMPORARY_REPLACEMENT_CHAR, "_");
@@ -167,9 +167,9 @@ public class HermesMetrics {
 
     private String metricRegistryName(String metricDisplayName, TopicName topicName, String subscription) {
         PathContext pathContext = PathContext.pathContext()
-                .withGroup(escapeDots(topicName.getGroupName()))
-                .withTopic(escapeDots(topicName.getName()))
-                .withSubscription(escapeDots(subscription))
+                .withGroup(escapeName(topicName.getGroupName()))
+                .withTopic(escapeName(topicName.getName()))
+                .withSubscription(escapeName(subscription))
                 .build();
 
         return pathCompiler.compile(metricDisplayName, pathContext);
@@ -177,8 +177,8 @@ public class HermesMetrics {
 
     private String metricRegistryName(String metricDisplayName, TopicName topicName) {
         PathContext pathContext = PathContext.pathContext()
-                .withGroup(escapeDots(topicName.getGroupName()))
-                .withTopic(escapeDots(topicName.getName())).build();
+                .withGroup(escapeName(topicName.getGroupName()))
+                .withTopic(escapeName(topicName.getName())).build();
 
         return pathCompiler.compile(metricDisplayName, pathContext);
     }
@@ -221,24 +221,24 @@ public class HermesMetrics {
 
     public Histogram messageContentSizeHistogram(TopicName topic) {
         return metricRegistry.histogram(pathCompiler.compile(Histograms.MESSAGE_SIZE, pathContext()
-                .withGroup(escapeDots(topic.getGroupName()))
-                .withTopic(escapeDots(topic.getName()))
+                .withGroup(escapeName(topic.getGroupName()))
+                .withTopic(escapeName(topic.getName()))
                 .build()));
     }
 
     public Histogram inflightTimeHistogram(Subscription subscription) {
         return metricRegistry.histogram(pathCompiler.compile(Histograms.INFLIGHT_TIME, pathContext()
-                .withGroup(escapeDots(subscription.getTopicName().getGroupName()))
-                .withTopic(escapeDots(subscription.getTopicName().getName()))
-                .withSubscription(escapeDots(subscription.getName()))
+                .withGroup(escapeName(subscription.getTopicName().getGroupName()))
+                .withTopic(escapeName(subscription.getTopicName().getName()))
+                .withSubscription(escapeName(subscription.getName()))
                 .build()));
     }
 
     public void registerConsumerHttpAnswer(Subscription subscription, int statusCode) {
         PathContext pathContext = pathContext()
-                .withGroup(escapeDots(subscription.getTopicName().getGroupName()))
-                .withTopic(escapeDots(subscription.getTopicName().getName()))
-                .withSubscription(escapeDots(subscription.getName()))
+                .withGroup(escapeName(subscription.getTopicName().getGroupName()))
+                .withTopic(escapeName(subscription.getTopicName().getName()))
+                .withSubscription(escapeName(subscription.getName()))
                 .withHttpCode(statusCode)
                 .withHttpCodeFamily(httpStatusFamily(statusCode))
                 .build();
@@ -252,18 +252,18 @@ public class HermesMetrics {
 
     public Meter consumerErrorsTimeoutMeter(Subscription subscription) {
         PathContext pathContext = pathContext()
-                .withGroup(escapeDots(subscription.getTopicName().getGroupName()))
-                .withTopic(escapeDots(subscription.getTopicName().getName()))
-                .withSubscription(escapeDots(subscription.getName()))
+                .withGroup(escapeName(subscription.getTopicName().getGroupName()))
+                .withTopic(escapeName(subscription.getTopicName().getName()))
+                .withSubscription(escapeName(subscription.getName()))
                 .build();
         return metricRegistry.meter(pathCompiler.compile(Meters.ERRORS_TIMEOUTS, pathContext));
     }
 
     public Meter consumerErrorsOtherMeter(Subscription subscription) {
         PathContext pathContext = pathContext()
-                .withGroup(escapeDots(subscription.getTopicName().getGroupName()))
-                .withTopic(escapeDots(subscription.getTopicName().getName()))
-                .withSubscription(escapeDots(subscription.getName()))
+                .withGroup(escapeName(subscription.getTopicName().getGroupName()))
+                .withTopic(escapeName(subscription.getTopicName().getName()))
+                .withSubscription(escapeName(subscription.getName()))
                 .build();
         return metricRegistry.meter(pathCompiler.compile(Meters.ERRORS_OTHER, pathContext));
     }
@@ -279,17 +279,17 @@ public class HermesMetrics {
 
     public Timer oAuthProviderLatencyTimer(String oAuthProviderName) {
         PathContext pathContext = pathContext()
-                .withOAuthProvider(escapeDots(oAuthProviderName))
+                .withOAuthProvider(escapeName(oAuthProviderName))
                 .build();
         return metricRegistry.timer(pathCompiler.compile(Timers.OAUTH_PROVIDER_TOKEN_REQUEST_LATENCY, pathContext));
     }
 
     public Meter oAuthSubscriptionTokenRequestMeter(Subscription subscription, String oAuthProviderName) {
         PathContext pathContext = pathContext()
-                .withGroup(escapeDots(subscription.getTopicName().getGroupName()))
-                .withTopic(escapeDots(subscription.getTopicName().getName()))
-                .withSubscription(escapeDots(subscription.getName()))
-                .withOAuthProvider(escapeDots(oAuthProviderName))
+                .withGroup(escapeName(subscription.getTopicName().getGroupName()))
+                .withTopic(escapeName(subscription.getTopicName().getName()))
+                .withSubscription(escapeName(subscription.getName()))
+                .withOAuthProvider(escapeName(oAuthProviderName))
                 .build();
         return metricRegistry.meter(pathCompiler.compile(Meters.OAUTH_SUBSCRIPTION_TOKEN_REQUEST, pathContext));
     }

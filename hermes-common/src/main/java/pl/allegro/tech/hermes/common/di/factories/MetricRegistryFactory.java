@@ -67,7 +67,7 @@ public class MetricRegistryFactory implements Factory<MetricRegistry> {
             String prefix = Joiner.on(".").join(
                     configFactory.getStringProperty(Configs.GRAPHITE_PREFIX),
                     moduleName,
-                    HermesMetrics.escapeDots(hostnameResolver.resolve()));
+                    HermesMetrics.escapeName(hostnameResolver.resolve()));
 
             GraphiteReporter
                     .forRegistry(registry)

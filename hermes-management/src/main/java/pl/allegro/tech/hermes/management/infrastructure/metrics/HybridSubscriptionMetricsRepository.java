@@ -16,7 +16,7 @@ import pl.allegro.tech.hermes.management.stub.MetricsPaths;
 import java.util.function.Supplier;
 
 import static org.apache.commons.lang.exception.ExceptionUtils.getRootCauseMessage;
-import static pl.allegro.tech.hermes.common.metric.HermesMetrics.escapeDots;
+import static pl.allegro.tech.hermes.common.metric.HermesMetrics.escapeName;
 
 @Component
 public class HybridSubscriptionMetricsRepository implements SubscriptionMetricsRepository {
@@ -143,7 +143,7 @@ public class HybridSubscriptionMetricsRepository implements SubscriptionMetricsR
 
     private String subscriptionNameToPath(SubscriptionName name) {
         return String.format(SUBSCRIPTION_PATH,
-                escapeDots(name.getTopicName().getGroupName()), name.getTopicName().getName(), escapeDots(name.getName())
+                escapeName(name.getTopicName().getGroupName()), name.getTopicName().getName(), escapeName(name.getName())
         );
     }
 

@@ -1,6 +1,5 @@
 package pl.allegro.tech.hermes.management.infrastructure.metrics;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.allegro.tech.hermes.api.TopicMetrics;
 import pl.allegro.tech.hermes.api.TopicName;
@@ -11,7 +10,7 @@ import pl.allegro.tech.hermes.management.infrastructure.graphite.GraphiteClient;
 import pl.allegro.tech.hermes.management.infrastructure.graphite.GraphiteMetrics;
 import pl.allegro.tech.hermes.management.stub.MetricsPaths;
 
-import static pl.allegro.tech.hermes.common.metric.HermesMetrics.escapeDots;
+import static pl.allegro.tech.hermes.common.metric.HermesMetrics.escapeName;
 
 @Component
 public class HybridTopicMetricsRepository implements TopicMetricsRepository {
@@ -61,6 +60,6 @@ public class HybridTopicMetricsRepository implements TopicMetricsRepository {
     }
 
     private String metricPath(String pattern, TopicName topicName) {
-        return String.format(pattern, metricsPaths.prefix(), escapeDots(topicName.getGroupName()), escapeDots(topicName.getName()));
+        return String.format(pattern, metricsPaths.prefix(), escapeName(topicName.getGroupName()), escapeName(topicName.getName()));
     }
 }

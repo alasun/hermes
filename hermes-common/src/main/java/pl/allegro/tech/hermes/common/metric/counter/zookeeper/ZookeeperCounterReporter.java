@@ -20,6 +20,7 @@ import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
 
 import static pl.allegro.tech.hermes.api.TopicName.fromQualifiedName;
+import static pl.allegro.tech.hermes.common.metric.HermesMetrics.unescapeName;
 
 public class ZookeeperCounterReporter extends ScheduledReporter {
 
@@ -69,7 +70,7 @@ public class ZookeeperCounterReporter extends ScheduledReporter {
         } else if (matcher.isSubscriptionThroughput()) {
             counterStorage.incrementVolumeCounter(
                     escapedTopicName(matcher.getTopicName()),
-                    escapeMetricsReplacementChar(matcher.getSubscriptionName()),
+                    unescapeName(matcher.getSubscriptionName()),
                     value
             );
         }
@@ -91,13 +92,13 @@ public class ZookeeperCounterReporter extends ScheduledReporter {
         } else if (matcher.isSubscriptionDelivered()) {
             counterStorage.setSubscriptionDeliveredCounter(
                     escapedTopicName(matcher.getTopicName()),
-                    escapeMetricsReplacementChar(matcher.getSubscriptionName()),
+                    unescapeName(matcher.getSubscriptionName()),
                     value
             );
         } else if (matcher.isSubscriptionDiscarded()) {
             counterStorage.setSubscriptionDiscardedCounter(
                     escapedTopicName(matcher.getTopicName()),
-                    escapeMetricsReplacementChar(matcher.getSubscriptionName()),
+                    unescapeName(matcher.getSubscriptionName()),
                     value
             );
         }
@@ -106,13 +107,9 @@ public class ZookeeperCounterReporter extends ScheduledReporter {
     private static TopicName escapedTopicName(String qualifiedTopicName) {
         TopicName topicName = fromQualifiedName(qualifiedTopicName);
         return new TopicName(
-                escapeMetricsReplacementChar(topicName.getGroupName()),
+                unescapeName(topicName.getGroupName()),
                 topicName.getName()
         );
-    }
-
-    private static String escapeMetricsReplacementChar(String value) {
-        return HermesMetrics.unescapeDots(value);
     }
 
     private static final class ZookeeperMetricsFilter implements MetricFilter {
