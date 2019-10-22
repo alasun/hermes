@@ -7,7 +7,6 @@ import pl.allegro.tech.hermes.api.ContentType;
 import pl.allegro.tech.hermes.api.ErrorCode;
 import pl.allegro.tech.hermes.api.ErrorDescription;
 import pl.allegro.tech.hermes.api.Group;
-import pl.allegro.tech.hermes.api.OwnerId;
 import pl.allegro.tech.hermes.api.PatchData;
 import pl.allegro.tech.hermes.api.Topic;
 import pl.allegro.tech.hermes.integration.IntegrationTest;
@@ -82,22 +81,6 @@ public class TopicManagementTest extends IntegrationTest {
 
         // when
         Response response = management.topic().remove("removeNonemptyTopicGroup.topic");
-
-        // then
-        assertThat(response).hasStatus(Response.Status.FORBIDDEN).hasErrorCode(ErrorCode.TOPIC_NOT_EMPTY);
-    }
-
-    @Test
-    public void shouldRemoveTopicWithoutOwner() {
-        // given
-        operations.createGroup("createTopicGroupWithNonexistentOwner");
-        Topic topic = topic("createTopicGroupWithNonexistentOwner", "topic")
-                .withOwner(null)
-                .build();
-        Response response = management.topic().create(topicWithSchema(topic));
-
-        // when
-        response = management.topic().remove("createTopicGroupWithNonexistentOwner.topic");
 
         // then
         assertThat(response).hasStatus(Response.Status.FORBIDDEN).hasErrorCode(ErrorCode.TOPIC_NOT_EMPTY);
