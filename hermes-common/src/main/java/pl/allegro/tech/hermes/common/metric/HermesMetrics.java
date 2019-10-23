@@ -25,7 +25,7 @@ import static pl.allegro.tech.hermes.metrics.PathContext.pathContext;
 public class HermesMetrics {
 
     public static final String REPLACEMENT_CHAR = "_";
-    public static final String TEMPORARY_REPLACEMENT_CHAR = "€";
+    public static final String TEMPORARY_REPLACEMENT_CHAR = "__";
 
     private final MetricRegistry metricRegistry;
     private final PathsCompiler pathCompiler;

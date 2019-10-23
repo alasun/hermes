@@ -119,13 +119,13 @@ public class MetricsTest extends IntegrationTest {
     public void shouldReadSubscriptionDeliveryRate() {
         // given
         Topic topic = operations.buildTopic("pl.allegro.tech.hermes", "topic");
-        operations.createSubscription(topic, "pl.allegro.tech.hermes.subscription", HTTP_ENDPOINT_URL);
-        graphiteEndpoint.returnMetric(subscriptionMetricsStub("pl_allegro_tech_hermes.topic.pl_allegro_tech_hermes_subscription").withRate(15).build());
+        operations.createSubscription(topic, "pl.allegro.tech.hermes.s_ubscription", HTTP_ENDPOINT_URL);
+        graphiteEndpoint.returnMetric(subscriptionMetricsStub("pl_allegro_tech_hermes.topic.pl_allegro_tech_hermes_s__ubscription").withRate(15).build());
 
         wait.until(() -> {
             // when
             SubscriptionMetrics metrics = management.subscription().getMetrics("pl.allegro.tech.hermes.topic",
-                    "pl.allegro.tech.hermes.subscription");
+                    "pl.allegro.tech.hermes.s_ubscription");
 
             // then
             assertThat(metrics.getRate()).isEqualTo(MetricDecimalValue.of("15"));
